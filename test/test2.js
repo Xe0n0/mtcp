@@ -4,8 +4,8 @@ var mtcp = require('../lib/mtcp');
 var host = "2620:107:300f::b8a9:aee7";
 host = "127.0.0.1";
 //var memwatch = require('memwatch');
-var port_local = 8003;
-var port_remote = 8124;
+var port_local = 8868;
+var port_remote = 7070;
 var printhelp = function() {
 	console.log("no parameter : port_local=" + port_local + " port_remote=" + port_remote + "host=" + host);
 	console.log("or:");

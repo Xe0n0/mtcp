@@ -4,8 +4,8 @@ var mtcp = require('../lib/mtcp');
 var host="2400:8900::f03c:91ff:fe70:f27d";
 // host = "127.0.0.1";
 
-var port_local = 10029;
-var port_remote = 8003;
+var port_local = 8123;
+var port_remote = 8868;
 var printhelp = function() {
 	console.log("no parameter : port_local=" + port_local + " port_remote=" + port_remote + "host=" + host);
 	console.log("or:");
