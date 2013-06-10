@@ -32,5 +32,5 @@ if (process.argv.length > 2) {
 }
 //memwatch.on('stats', function(info) { console.warn(info);});
 console.log("forward locathost mtcp " + port_local + " to Remote tcp" + host + ":" + port_remote);
-require('../lib/pipeserver')
+require('../lib/server')
 	.startServer(mtcp, net, port_remote, host, port_local);
