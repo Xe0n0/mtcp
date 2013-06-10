@@ -1,9 +1,8 @@
 var net = require('net');
 var mtcp = require('../lib/mtcp');
 
-var host = "2620:107:300f::b8a9:b32f";
-host = "127.0.0.1";
-//host="www.wsmlby.info";
+var host="2400:8900::f03c:91ff:fe70:f27d";
+// host = "127.0.0.1";
 
 var port_local = 10029;
 var port_remote = 8003;
