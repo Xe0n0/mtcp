@@ -1,11 +1,19 @@
 var net = require('net');
-var mtcp = require('../lib/mtcp');
+var mtcp = require('./lib/mtcp');
+var fs = require("fs");
+var path = require("path");
 
-var host="2400:8900::f03c:91ff:fe70:f27d";
-// host = "127.0.0.1";
 
-var port_local = 8123;
-var port_remote = 8868;
+configContent = fs.readFileSync(path.resolve(__dirname, "config.json"));
+
+config = JSON.parse(configContent);
+
+var host = config.host;
+
+var port_local = config.local_port;
+var port_remote = config.host_port;
+var somaxconn = config.somaxconn;
+
 var printhelp = function() {
 	console.log("no parameter : port_local=" + port_local + " port_remote=" + port_remote + "host=" + host);
 	console.log("or:");
@@ -32,5 +40,5 @@ if (process.argv.length > 2) {
 }
 
 console.log("forward locathost tcp " + port_local + " to Remote mtcp" + host + ":" + port_remote);
-require('../lib/pipeserver')
-	.startServer(net, mtcp, port_remote, host, port_local);
+require('./lib/pipeserver')
+	.startServer(net, mtcp, port_remote, host, port_local, somaxconn);

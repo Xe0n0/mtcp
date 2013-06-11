@@ -1,11 +1,16 @@
 var net = require('net');
-var mtcp = require('../lib/mtcp');
+var mtcp = require('./lib/mtcp');
+var path = require("path");
+var fs = require("fs");
 
-var host = "2620:107:300f::b8a9:aee7";
-host = "127.0.0.1";
-//var memwatch = require('memwatch');
-var port_local = 8868;
-var port_remote = 7070;
+var host = "127.0.0.1";
+
+configContent = fs.readFileSync(path.resolve(__dirname, "config.json"));
+
+config = JSON.parse(configContent);
+
+var port_local = config.host_port;
+var port_remote = config.remote_port;
 var printhelp = function() {
 	console.log("no parameter : port_local=" + port_local + " port_remote=" + port_remote + "host=" + host);
 	console.log("or:");
@@ -30,7 +35,7 @@ if (process.argv.length > 2) {
 
 	}
 }
-//memwatch.on('stats', function(info) { console.warn(info);});
+
 console.log("forward locathost mtcp " + port_local + " to Remote tcp" + host + ":" + port_remote);
-require('../lib/server')
+require('./lib/server')
 	.startServer(mtcp, net, port_remote, host, port_local);
