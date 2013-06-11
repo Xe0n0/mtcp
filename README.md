@@ -1,15 +1,45 @@
 mtcp
 =====
+`mtcp` module for disperse your network transfer over multi sockets, thus improve network speed if you get per-connection speed limit. Otherwise you will too soon comsume too many connections and can not connect any more.
 
-mtcp module for disperse your network transfer over multi sockets, thus improve network speed if you get per-connection speed limit.
+`mtcp` module was originally forked from `wsmlby/mtcp`, with several patches to make it easier to use and stable.
 
-usage
+## usage
 --------
+mtcp will forward  a remote port on a server to a local port on your machine via multi sockets:
+
+```
+Applications <--> local:local_port <-- multi sockets --> host:host_port <--> host:remote_port
+```
+Now you can use `local_port` on your machine as using `remote_port` on a server.
+
+For example, you can open a ssh tunnel on you server (ssh to localhost), then use mtcp to forward it to your local machine, and now get a socks5 proxy at localhost:local_port.
+
 
 setup
 ----------------
+#### configuration
 
-Right now mtcp will create 20 sockets for a single connections. So you would like to increase your max files open limit and max tcp connection limit on both server and client.
+This module is still under development. You must provide a `config.json` at mtcp directory:
+
+```
+{
+    "host":"you_host",
+    "host_port":"host_port",
+    "remote_port":"remote_port",
+    "local_port":"local_port",
+    "somaxconn":10
+}
+
+```
+
+`host` has been tested against IPv6 **only**.
+`host_port` is used by mtcp itself.
+
+
+Right now mtcp will create `somaxconn` sockets for a single connections. So you would like to increase your max files open limit and max tcp connection limit on both server and client.
+
+### increase max connection limit
 
 #### Linux
 
@@ -65,22 +95,36 @@ You may also want to add something like `ulimit -n 10240` to your /etc/profile
 you may open a wrong url by accident
 
 
-for socket forwarding
+Port Forwarding
 ----------------
 use 
 
-	node test/test.js localport:remoteaddress:remoteport
+	node local.js
 
 
-on client(the host you can access)
+on client (the host you can access)
 
 and 
 
-	node test/test2.js localport:remoteaddress:remoteport
+	node server.js
 
-on server(the other end).
+on server (the other end).
 
-You should manually edit `host` on test.js to get all things work.
+# Known issues
+This module is not stable yet. 
+
+Right now `mtcp` has some bugs causing memory leaks. If you can help, feel free to send pull requests.
+
+`mtcp` will release unused sockets for a timeout. So it may hold many sockets at the same time (maybe thousands). It will release them after a period of time. I hope this could be fixed soon.
+
+`mtcp` disperse data and re-assemble then on remote server. So it would comsume much CPU time if you set a big value for `somaxconn`, and won't increase speed any more.
+
+# Warnning
+Don't abuse this package to get much more bandwidth than yourself need like massive downloading or provide service to others.
+
+# License 
+
+(MIT)
 
 
 
