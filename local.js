@@ -39,6 +39,6 @@ if (process.argv.length > 2) {
 	}
 }
 
-console.log("forward locathost tcp " + port_local + " to Remote mtcp" + host + ":" + port_remote);
+console.log("forward locathost tcp " + port_local + " to Remote mtcp " + host + ":" + port_remote);
 require('./lib/pipeserver')
 	.startServer(net, mtcp, port_remote, host, port_local, somaxconn);
